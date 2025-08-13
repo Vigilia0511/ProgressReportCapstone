@@ -28,63 +28,11 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# Define the GPIO pins for rows, columns, and button
-ROW_PINS = [18, 25, 8, 7]
-COL_PINS = [5, 27, 17, 4]
-
 BUTTON_PIN = 20  # Replace with the GPIO pin for the button
 
 # Define GPIO pin for the solenoid lock
 LOCK_PIN = 6  # Replace with your solenoid lock GPIO pin
 
-# Keypad layout
-KEYPAD = [
-    ['1', '2', '3', 'A'],
-    ['4', '5', '6', 'B'],
-    ['7', '8', '9', 'C'],
-    ['*', '0', '#', 'OK']
-]
-
-# Set the correct password
-PASSWORD = "1234"
-
-def setup():
-    # Set up GPIO mode
-    GPIO.setmode(GPIO.BCM)
-    
-    # Set up rows as output and columns as input
-    for row in ROW_PINS:
-        GPIO.setup(row, GPIO.OUT)
-        GPIO.output(row, GPIO.LOW)
-    
-    for col in COL_PINS:
-        GPIO.setup(col, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    
-    # Set up the solenoid lock pin as output
-    GPIO.setup(LOCK_PIN, GPIO.OUT)
-    GPIO.output(LOCK_PIN, GPIO.LOW)  # Ensure the lock is initially closed
-
-    # Set up the button pin as input
-    GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
-def read_keypad():
-    for row_index, row_pin in enumerate(ROW_PINS):
-        # Set the current row HIGH
-        GPIO.output(row_pin, GPIO.HIGH)
-        for col_index, col_pin in enumerate(COL_PINS):
-            if GPIO.input(col_pin) == GPIO.HIGH:
-                # Debounce the key press
-                time.sleep(0.02)  # Short delay
-                if GPIO.input(col_pin) == GPIO.HIGH:
-                    key = KEYPAD[row_index][col_index]
-                    # Wait for the key to be released
-                    while GPIO.input(col_pin) == GPIO.HIGH:
-                        pass
-                    return key
-        # Set the current row LOW
-        GPIO.output(row_pin, GPIO.LOW)
-    return None
-    return input("Simulate Key Press: ").strip()  # Simulate user input
 
 def open_lock():
     """Opens the lock for a specific duration."""
@@ -94,12 +42,7 @@ def open_lock():
     GPIO.output(LOCK_PIN, GPIO.LOW)  # Deactivate solenoid
     print("Door locked again.")
 
-def keypad_mode():
-    """Handles the keypad password input logic."""
-    print("Keypad mode activated. Press 'A' to begin password entry.")
-    entered_password = ""  # Initialize the password buffer
-    a_pressed = False  # Flag to check if "A" is pressed before accepting the password
-    a_pressed_time = 0  # Variable to store the time when "A" is pressed
+
 
 def update_lcd_display(line1, line2=""):
     """
@@ -315,68 +258,7 @@ def main_loop():
     voice_fail_count = 0
     fingerprint_fail_count = 0
     pin_fail_count = 0
-    total_fail_count = 0
-    
-
-
-    # Initialize global variables
-    global a_pressed, a_pressed_time
-    a_pressed = False  # Flag for "A" press
-    a_pressed_time = 0  # Time when "A" was pressed
-    entered_password = ""  # Buffer for password input
-
-    while True:
-        # Check keypad
-        key = read_keypad()
-        if key:  # Check if a key is pressed
-            if key == "A" and not a_pressed:
-                message = "Hello, enter your PIN."
-                speak(message)
-            if a_pressed:
-                if key == "OK":
-                    # Check if the entered password matches
-                    if entered_password == PASSWORD:
-                        message = "Access granted!, Welcome!"
-                        speak(message)
-                        print("Access granted!")
-                        update_lcd_display("Access granted!", "Welcome!")
-                        open_lock()
-                        update_notification("PIN access granted")
-                        pin_fail_count = 0
-                    else:
-                        message = "Incorrect PIN!,Try again."
-                        speak(message)
-                        print("Incorrect PIN.")
-                        update_lcd_display("Incorrect PIN!", "Try again.")
-                        entered_password = ""  # Reset after checking
-                        a_pressed = False
-                        pin_fail_count += 1
-                        update_notification("PIN access denied", True)
-                        total_fail_count = voice_fail_count + fingerprint_fail_count + pin_fail_count
-                        if total_fail_count >= 3:
-                            sound_buzzer()
-                            capture_and_email_intruder_image()
-                        
-                elif key == "*":
-                    message = "Password cleared"
-                    speak(message)
-                    # Clear the entered password
-                    entered_password = ""
-                    print("Password cleared.")
-                    update_lcd_display("PIN Cleared!", "")
-                else:
-                    # Append the key to the entered password
-                    entered_password += key
-                    print(f"Password so far: {entered_password}")
-                    # Display the PIN on the LCD as it's being entered
-                    update_lcd_display("Enter PIN:", "*" * len(entered_password))
-            else:
-                if key == "A":
-                    # Activate PIN entry mode
-                    a_pressed = True
-                    entered_password = ""  # Reset PIN entry
-                    print("A pressed. Enter your PIN.")
-                    update_lcd_display("Enter your PIN", "")                                                                                                                                                                
+    total_fail_count = 0                                                                                                                                                               
 
         # Button 1: Register voice command
         if GPIO.input(PINS['button1']) == GPIO.LOW:
