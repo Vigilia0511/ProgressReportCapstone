@@ -496,8 +496,6 @@ def save_intruder_image():
     """Forward declaration - implemented below"""
     pass
 
-#//JUST FIX THE BELOW CODE OF THIS COMMENT JUST GENERATE THE FIX CODE OF THE CODE FROM HERE TO THE BELLOW ONLY ALL OF THE CODE HERE TO THE BUTTOM 
-
 def save_intruder_image():
     """Save intruder image to database."""
     try:
