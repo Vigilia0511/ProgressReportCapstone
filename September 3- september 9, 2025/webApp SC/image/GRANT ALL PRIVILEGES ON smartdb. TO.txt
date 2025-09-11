@@ -1,0 +1,2 @@
+GRANT ALL PRIVILEGES ON smartdb.* TO 'root'@'%' IDENTIFIED BY 'oneinamillion';
+FLUSH PRIVILEGES;
