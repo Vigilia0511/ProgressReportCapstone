@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="testdatabase.MainPage"
+             NavigationPage.HasNavigationBar="False">
+
+    <!-- Background with Gradient -->
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#667eea" Offset="0.0" />
+            <GradientStop Color="#764ba2" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <ScrollView>
+        <Grid Padding="30,40">
+
+            <!-- Main Content Card -->
+            <Frame BackgroundColor="White"
+                   HasShadow="True"
+                   CornerRadius="20"
+                   Padding="40,50"
+                   MaximumWidthRequest="400"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center">
+
+                <Frame.Shadow>
+                    <Shadow Brush="Black" Opacity="0.1" Radius="20" Offset="0,8" />
+                </Frame.Shadow>
+
+                <VerticalStackLayout Spacing="30">
+
+                    <!-- Logo Container with Animation Effect -->
+                    <Frame BackgroundColor="#f1f5f9" 
+                           CornerRadius="60" 
+                           Padding="20" 
+                           HorizontalOptions="Center"
+                           HasShadow="False">
+                        <Image Source="logo.png"
+                               HeightRequest="80"
+                               WidthRequest="80"
+                               HorizontalOptions="Center" />
+                    </Frame>
+
+                    <!-- Brand Text Section -->
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="SecureAccess"
+                               FontSize="32"
+                               FontAttributes="Bold"
+                               TextColor="#1e293b"
+                               HorizontalTextAlignment="Center" />
+
+                        <Label Text="Layered Security Meets Trusted Simplicity"
+                               FontSize="14"
+                               TextColor="#64748b"
+                               HorizontalTextAlignment="Center"
+                               LineHeight="1.4" />
+                    </VerticalStackLayout>
+
+                    <!-- Login Section -->
+                    <VerticalStackLayout Spacing="20">
+                        <Label Text="Choose Your Access Level"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#334155"
+                               HorizontalTextAlignment="Center" />
+
+                        <!-- Admin Button -->
+                        <Button Text="👤 Administrator Access"
+                                BackgroundColor="#3b82f6"
+                                TextColor="White"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                HeightRequest="56"
+                                CornerRadius="12"
+                                Clicked="OnAdminButtonClicked">
+                            <Button.Shadow>
+                                <Shadow Brush="#3b82f6" Opacity="0.3" Radius="8" Offset="0,4" />
+                            </Button.Shadow>
+                        </Button>
+
+                        <!-- User Button -->
+                        <Button Text="👥 Standard User Access"
+                                BackgroundColor="#10b981"
+                                TextColor="White"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                HeightRequest="56"
+                                CornerRadius="12"
+                                Clicked="OnUserButtonClicked">
+                            <Button.Shadow>
+                                <Shadow Brush="#10b981" Opacity="0.3" Radius="8" Offset="0,4" />
+                            </Button.Shadow>
+                        </Button>
+                    </VerticalStackLayout>
+
+                    <!-- Footer Info -->
+                    <VerticalStackLayout Spacing="8">
+                        <BoxView HeightRequest="1" 
+                                 BackgroundColor="#e2e8f0" 
+                                 Margin="0,10,0,0" />
+
+                        <Label Text="Secure • Reliable • User-Friendly"
+                               FontSize="12"
+                               TextColor="#94a3b8"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </Frame>
+
+        </Grid>
+    </ScrollView>
+</ContentPage>

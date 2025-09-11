@@ -1,0 +1,488 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="testdatabase.AllNotifPage"
+             BackgroundColor="White">
+
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="4"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- TOP BAR -->
+        <Grid Grid.Row="0" Padding="15,10">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#7BB5CB" Offset="0.0" />
+                    <GradientStop Color="#497AA3" Offset="1.0" />
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Frame HeightRequest="40" WidthRequest="40" CornerRadius="20" Padding="0" 
+                   HasShadow="False" IsClippedToBounds="True" BackgroundColor="Transparent" 
+                   VerticalOptions="Center" HorizontalOptions="Start" Grid.Column="0">
+                <Image Source="logo.png" Aspect="AspectFill"/>
+            </Frame>
+
+            <Image Source="menu.png" HeightRequest="35" WidthRequest="35" Grid.Column="2" 
+                   VerticalOptions="Center" HorizontalOptions="End">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnMenuIconTapped" />
+                </Image.GestureRecognizers>
+            </Image>
+
+        </Grid>
+
+        <!-- CONTROL BAR -->
+        <Grid Grid.Row="2" Padding="15,12" ColumnSpacing="15">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#497AA3" Offset="0.0" />
+                    <GradientStop Color="#7BB5CB" Offset="1.0" />
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Start"
+                         VerticalOptions="Center" Spacing="12" Grid.Column="0">
+                <Label Text="DOOR LOCK" TextColor="White" VerticalOptions="Center" 
+                       FontAttributes="Bold" FontSize="16"/>
+                <Switch IsToggled="False" ThumbColor="White" OnColor="#4CAF50"
+                        Toggled="OnSolenoidToggled" Scale="0.9"/>
+            </StackLayout>
+
+            <VerticalStackLayout Grid.Column="1" Spacing="6" HorizontalOptions="End" VerticalOptions="Center">
+                <Button Text="LIVE VIEW" BackgroundColor="#FF4444" TextColor="White" 
+                        FontSize="13" CornerRadius="8" Padding="12,6" HeightRequest="36" 
+                        WidthRequest="110" Clicked="OnLiveClicked" FontAttributes="Bold"/>
+            </VerticalStackLayout>
+        </Grid>
+
+        <!-- CLOSE NOTIFICATION BUTTON -->
+        <VerticalStackLayout Grid.Row="3" HorizontalOptions="End" VerticalOptions="Start" x:Name="closenotif">
+            <Button Text="✕" BackgroundColor="#1565C0" TextColor="White" Margin="0,12,15,0" 
+                    HeightRequest="40" WidthRequest="40" CornerRadius="20" FontSize="14"
+                    Clicked="OnCloseNotifClicked" FontAttributes="Bold"/>
+        </VerticalStackLayout>
+
+        <!-- VIDEO FEED -->
+        <ContentView Grid.Row="4" Padding="15">
+            <Grid>
+                <Frame x:Name="feed" IsVisible="False" BackgroundColor="White" Padding="0" 
+                       HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                       CornerRadius="12" HasShadow="True">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" BackgroundColor="#1565C0" Padding="12,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="Live Camera Feed" TextColor="White" FontAttributes="Bold" 
+                                   VerticalOptions="Center" FontSize="16"/>
+                            <Button Text="✕" BackgroundColor="Transparent" TextColor="White" 
+                                    Grid.Column="1" HeightRequest="40" WidthRequest="40 " 
+                                    CornerRadius="15" FontSize="14" Clicked="OnCloseVideoClicked" 
+                                    FontAttributes="Bold"/>
+                        </Grid>
+
+                        <WebView x:Name="VideoFeedWebView" Grid.Row="1"
+                                 Source="http://192.168.176.237:5000/video_feed" 
+                                 HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+                    </Grid>
+                </Frame>
+            </Grid>
+        </ContentView>
+
+        <!-- ENHANCED NOTIFICATIONS -->
+        <ScrollView Grid.Row="4" Padding="15,5" x:Name="AllNotif">
+            <Grid ColumnSpacing="12" RowSpacing="12">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- VOICE NOTIFICATION -->
+                <Border Grid.Row="0" Grid.Column="0" Stroke="#E3F2FD" StrokeThickness="1"
+                        BackgroundColor="#FAFAFA" Padding="0" Margin="2">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Opacity="0.15" Radius="8" Offset="0,2"/>
+                    </Border.Shadow>
+
+                    <Grid RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Header -->
+                        <Border Grid.Row="0" BackgroundColor="#E3F2FD" Padding="12,10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12,12,0,0"/>
+                            </Border.StrokeShape>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="Voice Auth" FontAttributes="Bold" FontSize="14" Grid.Column="1" 
+                                       TextColor="#1565C0" VerticalOptions="Center" Margin="8,0,0,0"/>
+                                <Image Source="alarm.png" HeightRequest="16" WidthRequest="16" Grid.Column="2" 
+                                       Margin="0,0,6,0" VerticalOptions="Center"/>
+                                <Label x:Name="VoiceBadge" Text="0" TextColor="#1565C0" FontSize="12" 
+                                       FontAttributes="Bold" Grid.Column="3" VerticalOptions="Center"
+                                       BackgroundColor="Transparent"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Content -->
+                        <ScrollView Grid.Row="1" Padding="4" MaximumHeightRequest="180">
+                            <VerticalStackLayout x:Name="VoiceStack" Spacing="5"/>
+                        </ScrollView>
+                    </Grid>
+                </Border>
+
+                <!-- FINGERPRINT NOTIFICATION -->
+                <Border Grid.Row="0" Grid.Column="1" Stroke="#E8F5E8" StrokeThickness="1"
+                        BackgroundColor="#FAFAFA" Padding="0" Margin="2">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Opacity="0.15" Radius="8" Offset="0,2"/>
+                    </Border.Shadow>
+
+                    <Grid RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Header -->
+                        <Border Grid.Row="0" BackgroundColor="#E8F5E8" Padding="12,10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12,12,0,0"/>
+                            </Border.StrokeShape>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="Fingerprint" FontAttributes="Bold" FontSize="14" Grid.Column="1" 
+                                       TextColor="#2E7D32" VerticalOptions="Center" Margin="8,0,0,0"/>
+                                <Image Source="alarm.png" HeightRequest="16" WidthRequest="16" Grid.Column="2" 
+                                       Margin="0,0,6,0" VerticalOptions="Center"/>
+                                <Label x:Name="FingerprintBadge" Text="0" TextColor="#2E7D32" FontSize="12" 
+                                       FontAttributes="Bold" Grid.Column="3" VerticalOptions="Center"
+                                       BackgroundColor="Transparent"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Content -->
+                        <ScrollView Grid.Row="1" Padding="4" MaximumHeightRequest="180">
+                            <VerticalStackLayout x:Name="FingerprintStack" Spacing="5"/>
+                        </ScrollView>
+                    </Grid>
+                </Border>
+
+                <!-- FACE NOTIFICATION -->
+                <Border Grid.Row="1" Grid.Column="0" Stroke="#FFF3E0" StrokeThickness="1"
+                        BackgroundColor="#FAFAFA" Padding="0" Margin="2">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Opacity="0.15" Radius="8" Offset="0,2"/>
+                    </Border.Shadow>
+
+                    <Grid RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Header -->
+                        <Border Grid.Row="0" BackgroundColor="#FFF3E0" Padding="12,10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12,12,0,0"/>
+                            </Border.StrokeShape>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="Face Auth" FontAttributes="Bold" FontSize="14" Grid.Column="1" 
+                                       TextColor="#F57C00" VerticalOptions="Center" Margin="8,0,0,0"/>
+                                <Image Source="alarm.png" HeightRequest="16" WidthRequest="16" Grid.Column="2" 
+                                       Margin="0,0,6,0" VerticalOptions="Center"/>
+                                <Label x:Name="FaceBadge" Text="0" TextColor="#F57C00" FontSize="12" 
+                                       FontAttributes="Bold" Grid.Column="3" VerticalOptions="Center"
+                                       BackgroundColor="Transparent"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Content -->
+                        <ScrollView Grid.Row="1" Padding="4" MaximumHeightRequest="180">
+                            <VerticalStackLayout x:Name="FaceStack" Spacing="5"/>
+                        </ScrollView>
+                    </Grid>
+                </Border>
+
+                <!-- PIN NOTIFICATION -->
+                <Border Grid.Row="1" Grid.Column="1" Stroke="#F3E5F5" StrokeThickness="1"
+                        BackgroundColor="#FAFAFA" Padding="0" Margin="2">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Opacity="0.15" Radius="8" Offset="0,2"/>
+                    </Border.Shadow>
+
+                    <Grid RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Header -->
+                        <Border Grid.Row="0" BackgroundColor="#F3E5F5" Padding="12,10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12,12,0,0"/>
+                            </Border.StrokeShape>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="PIN Auth" FontAttributes="Bold" FontSize="14" Grid.Column="1" 
+                                       TextColor="#7B1FA2" VerticalOptions="Center" Margin="8,0,0,0"/>
+                                <Image Source="alarm.png" HeightRequest="16" WidthRequest="16" Grid.Column="2" 
+                                       Margin="0,0,6,0" VerticalOptions="Center"/>
+                                <Label x:Name="PINBadge" Text="0" TextColor="#7B1FA2" FontSize="12" 
+                                       FontAttributes="Bold" Grid.Column="3" VerticalOptions="Center"
+                                       BackgroundColor="Transparent"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Content -->
+                        <ScrollView Grid.Row="1" Padding="4" MaximumHeightRequest="180">
+                            <VerticalStackLayout x:Name="PINStack" Spacing="5"/>
+                        </ScrollView>
+                    </Grid>
+                </Border>
+            </Grid>
+        </ScrollView>
+
+        <!-- SIDEBAR OVERLAY -->
+        <BoxView x:Name="Overlay" BackgroundColor="#80000000" IsVisible="False" 
+          InputTransparent="False" HorizontalOptions="FillAndExpand" 
+          VerticalOptions="FillAndExpand" Grid.RowSpan="5">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnOverlayTapped" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+
+        <!-- ENHANCED SIDEBAR WITH USERNAME DISPLAY -->
+        <Border x:Name="Sidebar" BackgroundColor="#2A6FA4" 
+         IsVisible="False" Grid.RowSpan="5" HorizontalOptions="End" 
+         VerticalOptions="Fill" Padding="0" Margin="0" WidthRequest="250">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12,0,0,12"/>
+            </Border.StrokeShape>
+            <Border.Shadow>
+                <Shadow Brush="Black" Opacity="0.3" Radius="12" Offset="-4,0"/>
+            </Border.Shadow>
+
+            <!-- Sidebar Content -->
+            <StackLayout Padding="20,25" Spacing="18" VerticalOptions="Start" 
+                  BackgroundColor="#2A6FA4">
+
+                <StackLayout Padding="20,25" Spacing="18" VerticalOptions="Start" 
+                  BackgroundColor="#4A7BA7">
+
+                    <!-- Username Display Section -->
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="8">
+                        <Image Source="profile.png" WidthRequest="50" HeightRequest="50" 
+                               VerticalOptions="Center" />
+                    </StackLayout>
+                    <Label x:Name="SidebarUsernameLabel" 
+                               Text="Welcome, ADMIN" 
+                               TextColor="#E3F2FD" 
+                               FontSize="14" 
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               HorizontalTextAlignment="Center"/>
+                </StackLayout>
+
+                <!-- Separator Line -->
+                <BoxView HeightRequest="1" BackgroundColor="#4A7BA7" Margin="0,5,0,10"/>
+
+                <!-- Home Button with Custom Layout -->
+                <StackLayout Orientation="Horizontal" Spacing="10" 
+                      BackgroundColor="Transparent" 
+                      HorizontalOptions="FillAndExpand">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnDashboardClicked"/>
+                    </StackLayout.GestureRecognizers>
+                    <Image Source="home.png" WidthRequest="16" HeightRequest="16" VerticalOptions="Center"/>
+                    <Label Text="Home" TextColor="White" FontSize="16" VerticalOptions="Center"/>
+                </StackLayout>
+
+                <!-- Approval Button with Custom Layout -->
+                <StackLayout x:Name="ApprovalButton" 
+                            Orientation="Horizontal" Spacing="10" 
+                            BackgroundColor="Transparent" 
+                            HorizontalOptions="FillAndExpand">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnApprovalClicked"/>
+                    </StackLayout.GestureRecognizers>
+                    <Image Source="approval.png" WidthRequest="16" HeightRequest="16" VerticalOptions="Center"/>
+                    <Label Text="Approval" TextColor="White" FontSize="16" VerticalOptions="Center"/>
+                </StackLayout>
+
+                <!-- Images Button with Custom Layout -->
+                <StackLayout Orientation="Horizontal" Spacing="10" 
+                      BackgroundColor="Transparent" 
+                      HorizontalOptions="FillAndExpand">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnImageClicked"/>
+                    </StackLayout.GestureRecognizers>
+                    <Image Source="picture.png" WidthRequest="16" HeightRequest="16" VerticalOptions="Center"/>
+                    <Label Text="Images" TextColor="White" FontSize="16" VerticalOptions="Center"/>
+                </StackLayout>
+
+                <!-- Settings Header -->
+                <StackLayout x:Name="SettingsHeader"
+                 Orientation="Horizontal"
+                 Padding="10,5"
+                 Spacing="10"
+                 BackgroundColor="Transparent"
+                 HorizontalOptions="FillAndExpand">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSettingsHeaderTapped"/>
+                    </StackLayout.GestureRecognizers>
+                    <Image Source="settings.png"
+               WidthRequest="20" 
+               HeightRequest="20"
+               VerticalOptions="Center"/>
+                    <Label Text="Settings"
+               TextColor="White"
+               FontSize="16"
+               VerticalOptions="Center"
+               HorizontalOptions="StartAndExpand"/>
+                    <Image x:Name="SettingsArrow"
+               Source="arrow_down.png"
+               WidthRequest="16" 
+               HeightRequest="16"
+               VerticalOptions="Center"/>
+                </StackLayout>
+
+                <!-- Dropdown Content -->
+                <StackLayout x:Name="SettingsDropdown"
+                 IsVisible="False"
+                 BackgroundColor="#2E5984"
+                 Padding="15"
+                 Spacing="1">
+
+                    <!-- Dark Mode Toggle -->
+                    <Grid ColumnSpacing="15"
+              VerticalOptions="Center"
+              Padding="5,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Dark Mode"
+                   TextColor="#FFFFFF"
+                   FontSize="13"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Start"
+                   Grid.Column="0"/>
+
+                    </Grid>
+                    <Switch x:Name="DarkModeSwitch"
+        OnColor="#4CAF50"
+        ThumbColor="#FFFFFF"
+        Toggled="OnDarkModeToggled"
+        VerticalOptions="Center"
+        HorizontalOptions="End"
+        Grid.Column="1"/>
+
+                    <!-- Enable Biometric Toggle -->
+                    <Grid ColumnSpacing="3" x:Name="biometric"
+              VerticalOptions="Center"
+              Padding="3,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackLayout Orientation="Horizontal" 
+                        Spacing="5"
+                        VerticalOptions="Center"
+                        Grid.Column="0">
+
+                            <Label Text="Enable Biometric"
+                       TextColor="#FFFFFF"
+                      FontSize="13"
+                       VerticalOptions="Start"/>
+                        </StackLayout>
+
+                    </Grid>
+                    <Switch x:Name="BiometricSwitch"
+         OnColor="#4CAF50"
+         ThumbColor="#FFFFFF"
+         Toggled="OnBiometricToggled"
+         VerticalOptions="Center"
+         HorizontalOptions="End"
+         Grid.Column="1"/>
+                </StackLayout>
+
+
+                <!-- Separator Line -->
+                <BoxView HeightRequest="1" BackgroundColor="#4A7BA7" Margin="0,15,0,5"/>
+
+                <!-- Logout Button with Custom Layout -->
+                <StackLayout Orientation="Horizontal" Spacing="10" 
+                      BackgroundColor="Transparent" 
+                      HorizontalOptions="FillAndExpand"
+                      Margin="0,10,0,0">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLogoutClicked"/>
+                    </StackLayout.GestureRecognizers>
+                    <Image Source="logout.png" WidthRequest="16" HeightRequest="16" VerticalOptions="Center"/>
+                    <Label Text="Logout" TextColor="#FFCDD2" FontSize="16" VerticalOptions="Center"/>
+                </StackLayout>
+            </StackLayout>
+        </Border>
+    </Grid>
+</ContentPage>
