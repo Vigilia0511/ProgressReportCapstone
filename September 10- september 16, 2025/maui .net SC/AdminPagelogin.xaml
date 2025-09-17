@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="testdatabase.AdminPagelogin"
+             BackgroundColor="#f8fafc">
+
+    <ScrollView>
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+
+            <!-- Background Gradient -->
+            <BoxView>
+                <BoxView.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#667eea" Offset="0.0" />
+                        <GradientStop Color="#764ba2" Offset="1.0" />
+                    </LinearGradientBrush>
+                </BoxView.Background>
+            </BoxView>
+
+            <!-- Main Content Container -->
+            <Frame BackgroundColor="White"
+                   CornerRadius="20"
+                   HasShadow="True"
+                   Margin="20,30"
+                   Padding="0"
+                   VerticalOptions="Center"
+                   HorizontalOptions="FillAndExpand"
+                   MaximumWidthRequest="450"
+                   MinimumWidthRequest="300">
+
+                <VerticalStackLayout Padding="30,40" Spacing="20">
+
+                    <!-- Logo Section -->
+                    <Frame BackgroundColor="#f1f5f9"
+                           CornerRadius="40"
+                           WidthRequest="80"
+                           HeightRequest="80"
+                           HorizontalOptions="Center"
+                           HasShadow="False"
+                           Padding="15">
+                        <Image Source="logo.png"
+                               Aspect="AspectFit"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Frame>
+
+                    <!-- Title Section -->
+                    <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                        <Label Text="Admin Portal"
+                               FontSize="28"
+                               FontAttributes="Bold"
+                               TextColor="#1e293b"
+                               HorizontalOptions="Center" />
+                        <Label Text="Sign in to your account"
+                               FontSize="14"
+                               TextColor="#64748b"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <!-- Biometric Authentication Section (conditionally visible) -->
+                    <VerticalStackLayout x:Name="biometricSection" IsVisible="False" Spacing="10">
+                        <!-- Biometric Authentication Button -->
+                        <Button x:Name="biometricButton"
+                                Text="🔐 Use Biometric Authentication"
+                                Clicked="OnBiometricButtonClicked"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                TextColor="#667eea"
+                                BackgroundColor="#f8fafc"
+                                BorderColor="#667eea"
+                                BorderWidth="2"
+                                CornerRadius="12"
+                                HeightRequest="48"
+                                HorizontalOptions="FillAndExpand" />
+
+                        <!-- Divider -->
+                        <Grid Margin="0,10">
+                            <BoxView BackgroundColor="#e2e8f0" HeightRequest="1" VerticalOptions="Center" />
+                            <Label Text="or continue with credentials"
+                                   FontSize="12"
+                                   TextColor="#94a3b8"
+                                   BackgroundColor="White"
+                                   Padding="10,0"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                    </VerticalStackLayout>
+
+                    <!-- Input Fields Section -->
+                    <VerticalStackLayout Spacing="20">
+
+                        <!-- Username Field -->
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Admin ID"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#374151" />
+                            <Frame BackgroundColor="#f8fafc"
+                                   CornerRadius="12"
+                                   HasShadow="False"
+                                   Padding="0"
+                                   BorderColor="#e2e8f0">
+                                <Entry x:Name="usernameEntry"
+                                       Placeholder="Enter your admin ID"
+                                       BackgroundColor="Transparent"
+                                       TextColor="#1e293b"
+                                       PlaceholderColor="#94a3b8"
+                                       FontSize="16"
+                                       Margin="15,12" />
+                            </Frame>
+                        </VerticalStackLayout>
+
+                        <!-- Password Field -->
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Password"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#374151" />
+                            <Frame BackgroundColor="#f8fafc"
+                                   CornerRadius="12"
+                                   HasShadow="False"
+                                   Padding="0"
+                                   BorderColor="#e2e8f0">
+                                <Entry x:Name="passwordEntry"
+                                       Placeholder="Enter your password"
+                                       IsPassword="True"
+                                       BackgroundColor="Transparent"
+                                       TextColor="#1e293b"
+                                       PlaceholderColor="#94a3b8"
+                                       FontSize="16"
+                                       Margin="15,12" />
+                            </Frame>
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+
+                    <!-- Login Button -->
+                    <Button x:Name="loginButton"
+                            Text="Sign In"
+                            Clicked="OnLoginClicked"
+                            FontSize="17"
+                            FontAttributes="Bold"
+                            TextColor="White"
+                            CornerRadius="12"
+                            HeightRequest="52"
+                            Margin="0,8,0,0"
+                            HorizontalOptions="FillAndExpand">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#667eea" Offset="0.0" />
+                                <GradientStop Color="#764ba2" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+
+                    <!-- Loading Indicator (initially hidden) -->
+                    <ActivityIndicator x:Name="loadingIndicator"
+                                     IsVisible="False"
+                                     IsRunning="False"
+                                     Color="#667eea"
+                                     HeightRequest="30" />
+
+                    <!-- Security Notice -->
+                    <Frame BackgroundColor="#fef3cd"
+                           BorderColor="#fbbf24"
+                           CornerRadius="8"
+                           HasShadow="False"
+                           Padding="7"
+                           Margin="0,10,0,0">
+                        <HorizontalStackLayout Spacing="8">
+                            <Label Text="🔒"
+                                   FontSize="10"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="This is a secure admin area. All login attempts are monitored."
+                                   FontSize="9"
+                                   TextColor="#92400e"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"
+                                   LineBreakMode="WordWrap" />
+                        </HorizontalStackLayout>
+                    </Frame>
+
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+    </ScrollView>
+</ContentPage>

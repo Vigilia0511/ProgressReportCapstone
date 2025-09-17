@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="testdatabase.UserLoginPage"
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False">
+
+    <!-- Diagonal gradient background -->
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#667eea" Offset="0.0" />
+            <GradientStop Color="#764ba2" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid>
+        <!-- Single centered content panel -->
+        <Frame x:Name="MainFrame"
+               BackgroundColor="White"
+               CornerRadius="20"
+               HasShadow="True"
+               Padding="0"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               MaximumWidthRequest="400"
+               MinimumWidthRequest="320"
+               Margin="20">
+
+            <!-- Enhanced shadow -->
+            <Frame.Shadow>
+                <Shadow Brush="Black" 
+                        Offset="0,8" 
+                        Radius="20" 
+                        Opacity="0.15" />
+            </Frame.Shadow>
+
+            <!-- Main content -->
+            <VerticalStackLayout x:Name="FormSection" 
+                               Spacing="24" 
+                               Padding="32">
+
+                <!-- Logo Container with Animation Effect -->
+                <Frame BackgroundColor="#f1f5f9" 
+                           CornerRadius="60" 
+                           Padding="20" 
+                           HorizontalOptions="Center"
+                           HasShadow="False">
+                    <Image Source="logo.png"
+                               HeightRequest="80"
+                               WidthRequest="80"
+                               HorizontalOptions="Center" />
+                </Frame>
+
+                <!-- Heading -->
+                <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                    <Label x:Name="WelcomeText"
+                           Text="Welcome Back"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#1a202c"
+                           HorizontalOptions="Center" />
+
+                    <Label x:Name="SubtitleText"
+                           Text="Sign in to your account"
+                           FontSize="16"
+                           TextColor="#718096"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+                <!-- User info section -->
+                <Frame BackgroundColor="#f7fafc"
+                       CornerRadius="12"
+                       Padding="16"
+                       HasShadow="False"
+                       BorderColor="#e2e8f0">
+                    <HorizontalStackLayout Spacing="12">
+                        <!-- User icon -->
+                        <Frame BackgroundColor="#667eea"
+                               CornerRadius="16"
+                               Padding="6"
+                               WidthRequest="32"
+                               HeightRequest="32"
+                               HasShadow="False">
+                            <Label Text="👤"
+                                   FontSize="16"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Frame>
+
+                        <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                            <Label Text="Current User"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#2d3748" />
+                            <Label x:Name="NameLabel"
+                                   Text="No user registered"
+                                   FontSize="13"
+                                   TextColor="#718096"
+                                   LineBreakMode="TailTruncation" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <!-- Login button -->
+                <Button x:Name="LoginButton"
+                        Text="Biometric Login"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        BackgroundColor="#667eea"
+                        CornerRadius="12"
+                        HeightRequest="48"
+                        Margin="0,8,0,0"
+                        Clicked="OnBiometricButtonClicked">
+                    <Button.Shadow>
+                        <Shadow Brush="#667eea" 
+                                Offset="0,2" 
+                                Radius="8" 
+                                Opacity="0.2" />
+                    </Button.Shadow>
+                </Button>
+
+                <!-- Divider -->
+                <BoxView BackgroundColor="#e2e8f0" 
+                         HeightRequest="1" 
+                         Margin="8,16" />
+
+                <!-- Register link -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                    <Label Text="Don't have an account?"
+                           FontSize="15"
+                           TextColor="#718096" />
+                    <Label Text="Register"
+                           FontSize="15"
+                           FontAttributes="Bold"
+                           TextColor="#667eea">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnRegisterTapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+</ContentPage>
